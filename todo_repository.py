@@ -18,3 +18,6 @@ class InMemoryRepository(TodoRepository):
 
     def add_todo(self, todo):
         self.todos.append(todo)
+
+    def remove_todo(self, todo):
+        self.todos.remove(todo)
