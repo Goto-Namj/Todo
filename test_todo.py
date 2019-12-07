@@ -6,8 +6,8 @@ import time
 
 def test_todo():
     # Given
-    todo1 = Todo("Las's Todo", "Today")
-    todo2 = Todo("Nam's Todo", "Next Day")
+    todo1 = Todo("Las's Todo", "2020-12-30")
+    todo2 = Todo("Nam's Todo", "2020-12-31")
     repository = InMemoryRepository()
 
     # When
@@ -15,13 +15,13 @@ def test_todo():
     repository.add_todo(todo2)
 
     # Then
-    assert todo1 in repository.get_by_date("Today")
+    assert todo1 in repository.get_by_date("2020-12-30")
 
 
 def test_todo_search_fail():
     # Given
-    todo1 = Todo("Las's Todo", "Today")
-    todo2 = Todo("Nam's Todo", "Next Day")
+    todo1 = Todo("Las's Todo", "2020-12-30")
+    todo2 = Todo("Nam's Todo", "2020-12-31")
     repository = InMemoryRepository()
 
     # When
@@ -29,13 +29,13 @@ def test_todo_search_fail():
     repository.add_todo(todo2)
 
     # Then
-    assert repository.get_by_date("Yesterday") == []
+    assert repository.get_by_date("2020-12-29") == []
 
 
 def test_today_have_multiple_todo():
     # Given
-    todo1 = Todo("Las's Todo", "Today")
-    todo2 = Todo("Nam's Todo", "Today")
+    todo1 = Todo("Las's Todo", "2020-12-30")
+    todo2 = Todo("Nam's Todo", "2020-12-30")
     repository = InMemoryRepository()
 
     # When
@@ -43,14 +43,14 @@ def test_today_have_multiple_todo():
     repository.add_todo(todo2)
 
     # Then
-    assert todo1 in repository.get_by_date("Today")
-    assert todo2 in repository.get_by_date("Today")
+    assert todo1 in repository.get_by_date("2020-12-30")
+    assert todo2 in repository.get_by_date("2020-12-30")
 
 
 def test_todo_remove():
     # Given
-    todo1 = Todo("Las's Todo", "Today")
-    todo2 = Todo("Nam's Todo", "Today")
+    todo1 = Todo("Las's Todo", "2020-12-30")
+    todo2 = Todo("Nam's Todo", "2020-12-30")
     repository = InMemoryRepository()
     repository.add_todo(todo1)
     repository.add_todo(todo2)
@@ -59,20 +59,40 @@ def test_todo_remove():
     repository.remove_todo(todo2)
 
     # Then
-    assert todo1 in repository.get_by_date("Today")
-    assert todo2 not in repository.get_by_date("Today")
+    assert todo1 in repository.get_by_date("2020-12-30")
+    assert todo2 not in repository.get_by_date("2020-12-30")
 
 
-def test_todo_set():
-    # When
-    todo1 = TodoFactory("Las's Todo", "Today")
-    todo2 = TodoFactory("Nam's Todo")
-
+def test_todofactory():
     # Given
-    repository = InMemoryRepository()
-    repository.add_todo(todo1)
-    repository.add_todo(todo2)
+    factory = TodoFactory()
 
+    # When
+    todo1 = factory.make_todo("Las's Todo", "2020-12-30")
+    
     # Then
-    assert todo1 in repository.get_by_date("Today")
-    assert todo2 in repository.get_by_date(time.strftime('%Y-%m-%d', time.localtime(time.time())))
+    assert isinstance(todo1, Todo)
+
+
+def test_dateparameter_empty():
+    # Given
+    factory = TodoFactory()
+
+    # When
+    todo1 = factory.make_todo("Las's Todo")
+    
+    # Then
+    now_date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+    assert todo1.date == now_date
+
+    
+def test_todo_set_past_day():
+    # Given
+    factory = TodoFactory()
+
+    # When, Then
+    try:
+        todo1 = factory.make_todo("Las's Todo", "1000-12-30")
+        assert False
+    except:
+        assert True

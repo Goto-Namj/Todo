@@ -16,6 +16,9 @@ class InMemoryRepository(TodoRepository):
                 fit_todos.append(todo)
         return fit_todos
 
+    def get_todos(self):
+        return self.todos
+
     def add_todo(self, todo):
         self.todos.append(todo)
 
