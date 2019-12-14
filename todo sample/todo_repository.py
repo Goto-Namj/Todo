@@ -1,5 +1,4 @@
 class TodoRepositoryInterface(object):
-   todolist = []
 
    def get_by_id(self, id):
       raise NotImplementedError

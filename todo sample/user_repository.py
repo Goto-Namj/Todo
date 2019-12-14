@@ -2,8 +2,6 @@ import user
 
 
 class UserRepositoryInterface(object):
-    userlist = []
-
     def get_by_name(self, name):
         raise NotImplementedError
 
