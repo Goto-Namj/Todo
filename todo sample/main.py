@@ -16,7 +16,7 @@ service.make_todo("LAS", "2001-12-25", "크리스마스")
 user1_todolist = service.get_all_todo("남진명")
 user2_todolist = service.get_all_todo("LAS")
 
-user1_2019_12_10_todolist = service.get_todo_by_date("2019-12-10", "남진명")
+user1_2019_12_10_todolist = service.get_todo_by_date( "남진명", "2019-12-10")
 
 for i in user1_2019_12_10_todolist:
     print(i.date, i.content)
