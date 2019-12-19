@@ -1,26 +1,30 @@
-import todo
+class TodoRepositoryInterface(object):
+
+   def get_by_id(self, id):
+      raise NotImplementedError
+
+   def get_by_date(self, date, todolist):
+      raise NotImplementedError
+
+   def add_todo(self, todo):
+      raise NotImplementedError
+
+   def remove_todo(self, todo):
+      raise NotImplementedError
 
 
-class TodoRepository(object):
-    def get_by_date(self, date):
-       raise NotImplementedError
+class TodoRepository(TodoRepositoryInterface):
+   todolist = []
 
+   def get_by_id(self, id):
+      # 이렇게 해놓고 로그인한 사용자의 id에 맞는 todolist가져와서 다른 get_by에서 활용한다.
+      return list(filter(lambda x: x.id == id, self.todolist))
 
-class InMemoryRepository(TodoRepository):
-    todos = []
+   def get_by_date(self, date, todolist):
+      return list(filter(lambda x: x.date == date, todolist))
 
-    def get_by_date(self, date):
-        fit_todos = []
-        for todo in self.todos:
-            if todo.date == date:
-                fit_todos.append(todo)
-        return fit_todos
+   def add_todo(self, todo):
+      self.todolist.append(todo)
 
-    def get_todos(self):
-        return self.todos
-
-    def add_todo(self, todo):
-        self.todos.append(todo)
-
-    def remove_todo(self, todo):
-        self.todos.remove(todo)
+   def remove_todo(self, todo):
+      self.todolist.remove(todo)
