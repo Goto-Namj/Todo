@@ -1,29 +1,49 @@
 import user
 
 
-class UserRepositoryInterface(object):
+class UserRepository(object):
+    def get_by_id(self, id):
+        raise NotImplementedError
+
+    def get_all(self):
+        raise NotImplementedError
+
     def get_by_name(self, name):
         raise NotImplementedError
 
     def add_user(self, user):
         raise NotImplementedError
 
-    def remove_user(self, user):
-        raise NotImplementedError
+@singleton
+class InMemoryUserRepository(UserRepository):
+    users = []
 
+    def get_by_id(self, id):
+        return list(filter(lambda x: x.id == id, self.users))
 
-class UserRepository(UserRepositoryInterface):
-    userlist = []
-
+    def get_all(self):
+        return self.users
     def get_by_name(self, name):
-        return self.find(name)
+
+        return list(filter(lambda x: x.name == name, self.users))
 
     def add_user(self, user):
-        self.userlist.append(user)
+        self.users.append(user)
+Todo
+repo = InMemoryUserRepository()
+repo.users == []
+repo.add_user("las")
+repo.users = ["las"]
+TodoFactory
+repo = InMemoryUserRepository()
+repo.users == ["las"]
 
-    def remove_user(self, user):
-        self.userlist.remove(user)
+user_repo = UserRepository(InMemoryUserRepository())
 
-    def find(self, name):
-        find_result = list(filter(lambda x: x.name == name, self.userlist))
-        return find_result[0]
+user_repo.get_by_name()
+todo = Todo()
+todo_info = todo.get_info()
+todo.user_id -> user -> user.name, user.login_id
+todo_info.writer
+
+todo_repo -> todo -> todo.get_info -> todo_info

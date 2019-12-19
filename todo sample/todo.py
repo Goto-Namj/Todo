@@ -1,5 +1,13 @@
 class Todo(object):
-    def __init__(self, id, date, content):
-        self.id = id
+    def __init__(self, date, name, important):
         self.date = date
-        self.content = content
+        self.name = name
+        self.important = important
+[
+    {
+        "date":"",
+        "name":"",
+        "important": 2,
+        "is_complite": true
+    }
+]

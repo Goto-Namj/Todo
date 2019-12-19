@@ -2,13 +2,10 @@ from user import User
 
 
 class UserFactoryInterface(object):
-    @staticmethod
-    def make_user(id, password):
+    def make_user(self, name):
         raise NotImplementedError
 
-UserFactory.make_user("las")
 class UserFactory(UserFactoryInterface):
-    @staticmethod
-    def make_user(name):
-        user = User(name, [])
+    def make_user(self, name):
+        user = User(name)
         return user
