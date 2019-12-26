@@ -32,19 +32,28 @@ class Service(ServiceInterface):
         user = self.user_factory.make_user(user_name)
         self.user_repository.add_user(user)
 
-    def make_todo(self, user_name, date, do):
+    def make_todo(self, user_name, date, content):
         user = self.user_repository.get_by_name(user_name)
         user_id = user.id
-        todo = self.todo_factory.make_todo(user_id, date, do)
+        todo = self.todo_factory.make_todo(user_id, date, content)
         self.todo_repository.add_todo(todo)
+
+    def get_all_user(self):
+        all_user = self.user_repository.userlist
+        return all_user
+
+    def get_user_by_user_name(self, user_name):
+        user_by_user_name = self.user_repository.get_by_name(user_name)
+        return user_by_user_name
+
 
     def get_all_todo(self, user_name):
         user = self.user_repository.get_by_name(user_name)
         user_id = user.id
-        user_all_todo = self.todo_repository.get_by_id(user_id)
-        return user_all_todo
+        all_todo = self.todo_repository.get_by_id(user_id)
+        return all_todo
 
     def get_todo_by_date(self, user_name, date):
-        user_all_todo = self.get_all_todo(user_name)
-        user_todo_by_date = self.todo_repository.get_by_date(date, user_all_todo)
-        return user_todo_by_date
+        all_todo = self.get_all_todo(user_name)
+        todo_by_date = self.todo_repository.get_by_date(date, all_todo)
+        return todo_by_date
