@@ -13,9 +13,6 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             find . -regex '.*requirements.txt$'
-            pwd
-            ls
-            pip install -r requirements.txt
 
       - run:
           name: run tests
